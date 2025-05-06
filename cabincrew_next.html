@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Next Flight</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #E4E0F5;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #210660;
+      color: #E4E0F5;
+      padding: 20px;
+      text-align: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+    .flight-details-container p {
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+    main {
+      margin-top: 140px; /* to clear header */
+      margin-bottom: 100px; /* to clear footer */
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .flight-details-container {
+      width: 60%;
+      padding: 20px;
+      background-color: #D1C9E1;
+      color: #17112D;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+
+    .flight-details {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .flight-info {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+    }
+
+    .flight-info div {
+      display: flex;
+      justify-content: space-between;
+      width: 50%;
+    }
+
+    .info-box {
+      background-color: #D1C9E1;
+      padding: 8px;
+      border-radius: 5px;
+      width: 100%;
+      margin-left: 10px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    #checkin-btn {
+      padding: 10px 20px;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #F4A89A;
+      transition: background-color 0.3s ease;
+      color: #17112D;
+    }
+
+    #checkin-btn:hover {
+      background-color: #FF9A8B;
+    }
+
+    footer {
+      background-color: #210660;
+      color: #E4E0F5;
+      text-align: center;
+      padding: 10px 0;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+
+    .footer-logout button {
+      background-color: #F4A89A;
+      color: #210660;
+      border: none;
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+
+    .footer-logout button:hover {
+      background-color: #FF9A8B;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    if (sessionStorage.getItem("authenticated") !== "true") {
+      window.location.href = "./login.html";
+    }
+  </script>
+
+  <header>
+    <h1 id="welcome-msg">Your Next Flight Details As A Cabin Crew</h1>
+  </header>
+
+  <main>
+    <div class="flight-details-container">
+      <p>Details about your next flight:</p>
+      <div class="flight-details">
+        <div class="flight-info">
+          <div>Flight Status:</div>
+          <div class="info-box">Scheduled</div>
+        </div>
+        <div class="flight-info">
+          <div>Flight Number:</div>
+          <div class="info-box">2025-TA</div>
+        </div>
+        <div class="flight-info">
+          <div>Check-in Status:</div>
+          <div><button id="checkin-btn">Check-in?</button></div>
+        </div>
+        <div class="flight-info">
+          <div>Departure:</div>
+          <div class="info-box">2025-04-25 14:30</div>
+        </div>
+        <div class="flight-info">
+          <div>Arrival:</div>
+          <div class="info-box">2025-04-25 16:45</div>
+        </div>
+        <div class="flight-info">
+          <div>Baggage Number:</div>
+          <div class="info-box">B123456</div>
+        </div>
+        <div class="flight-info">
+          <div>Baggage Status:</div>
+          <div class="info-box">Checked-in</div|>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; TechInovation2025</p>
+    <div class="footer-logout">
+        <div class="button-container"><a href="cabincrew_welcome.html"><button>Welcome</button>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </footer>
+
+  <script>
+    function logout() {
+      sessionStorage.removeItem("authenticated");
+      sessionStorage.removeItem("username");
+      window.location.href = "./login.html";
+    }
+
+    document.getElementById("checkin-btn").addEventListener("click", function () {
+      var button = document.getElementById("checkin-btn");
+      if (button.innerHTML === "Check-in?") {
+        button.innerHTML = "Checked in";
+        button.style.backgroundColor = "#7BCCC4";
+      } else {
+        button.innerHTML = "Check-in?";
+        button.style.backgroundColor = "#F4A89A";
+      }
+    });
+  </script>
+</body>
+</html>

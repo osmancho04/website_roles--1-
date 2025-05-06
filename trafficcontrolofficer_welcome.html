@@ -1,0 +1,163 @@
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Welcome</title>
+            
+   <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #E4E0F5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        header {
+            background-color: #210660;
+            color: #E4E0F5;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        section {
+            width: 60%;
+            padding: 20px;
+            margin-top: 80px; /* Ensures section starts below the fixed header */
+            background-color: #D1C9E1;
+            color: #17112D;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        footer {
+            background-color: #210660;
+            color: #E4E0F5;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .button-container a { margin: 0; }
+        .login-container {
+            background: #FFFFFF;
+            padding: 20px;
+            margin: 100px auto;
+            width: 300px;
+            box-shadow: 0px 0px 10px #4C419F;
+            border-radius: 5px;
+        }
+        input {
+            display: block;
+            width: 90%;
+            margin: 10px auto;
+            padding: 10px;
+            border: 1px solid #4C419F;
+        }
+        button {
+            background: #4C419F;
+            color: #E4E0F5;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #30216E;
+        }
+
+        /* Layout for the flight data section */
+        .flight-details {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .flight-info {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        .info-box {
+            background-color: #D1C9E1;
+            padding: 8px;
+            border-radius: 5px;
+            width: 100%;
+            margin-left: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        #checkin-btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            background-color: #F4A89A;
+        }
+
+        #checkin-btn:hover {
+            background-color: #FF9A8B;
+        }
+
+        .flight-info div {
+            display: flex;
+            justify-content: space-between;
+            width: 50%;
+        }
+    </style>
+
+        </head>
+        <body>
+            <script>
+                if (sessionStorage.getItem("authenticated") !== "true") {
+                    window.location.href = "./login.html";
+                }
+            </script>
+            <header>
+                <div style="position: absolute; left: 20px; top: 20px;">
+                    <button onclick="logout()">Logout</button>
+                </div>
+                <h1 id="welcome-msg">Welcome</h1>
+            </header>
+            <script>
+                function logout() {
+                    sessionStorage.removeItem("authenticated");
+                    sessionStorage.removeItem("username");
+                    window.location.href = "./login.html";  // Redirect to login page
+                }
+
+                const username = sessionStorage.getItem("username") || "";
+                if ("welcome" === "welcome") {
+                    document.getElementById("welcome-msg").innerText = "Welcome, " + username.charAt(0).toUpperCase() + username.slice(1) + "!";
+                }
+            </script>
+            <section><p>Welcome to your portal.</p></section>
+            <footer>
+                <p>&copy; TechInovation2025</p>
+                <div class="button-container"><a href="trafficcontrolofficer_runwayinfo.html"><button>Runway Info</button></a><a href="trafficcontrolofficer_flightdetails.html"><button>Flight Details</button></a></div>
+            </footer>
+        </body>
+        </html>
+        

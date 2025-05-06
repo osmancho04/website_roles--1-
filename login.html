@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #E4E0F5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+        header {
+            background-color: #210660;
+            color: #E4E0F5;
+            padding: 30px 20px;
+            font-size: large;
+            text-align: center;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+    }
+
+    .login-container {
+        background-color: #fff;
+        padding: 30px 40px;
+        margin-top: 150px; /* enough space below fixed header */
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        width: 320px;
+        position: relative;
+        z-index: 1;
+    }
+
+
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #4C419F;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .checkbox-container input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .checkbox-container label {
+      font-size: 14px;
+      color: #a33232;
+    }
+
+    .login-btn {
+      background-color: #4C419F;
+      color: #fff;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0px 4px 10px rgba(76, 65, 159, 0.3);
+      transition: background 0.3s ease;
+    }
+
+    .login-btn:hover {
+      background-color: #30216E;
+    }
+
+    #error-msg {
+      text-align: center;
+      color: #a33232;
+      margin-top: 10px;
+    }
+  
+    
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Welcome to the airport managing system</h1>
+    <p>Please log into your designated account. If you’ve forgotten your password, please message support as soon as possible.</p>
+  </header>
+
+  <div class="login-container">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Enter Username" required />
+      <input type="password" id="password" placeholder="Enter Password" required />
+      <div class="checkbox-container">
+        <input type="checkbox" id="showPassword">
+        <label for="showPassword">Show password</label>
+      </div>
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+    <p id="error-msg"></p>
+  </div>
+  
+
+  <script>
+    const validUsers = ['traveller', 'rampagent', 'trafficcontrolofficer', 'pilot', 'securityagent', 'cabincrew', 'checkinhost'];
+    const validPassword = "TechInovation2025";
+
+    document.getElementById('showPassword').addEventListener('change', function () {
+      const passwordField = document.getElementById('password');
+      passwordField.type = this.checked ? 'text' : 'password';
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      validateLogin();
+    });
+
+    function validateLogin() {
+      const username = document.getElementById("username").value.trim().toLowerCase();
+      const password = document.getElementById("password").value;
+
+      if (validUsers.includes(username) && password === validPassword) {
+        sessionStorage.setItem("authenticated", "true");
+        sessionStorage.setItem("username", username);
+        window.location.href = username + "_welcome.html";
+      } else {
+        document.getElementById("error-msg").innerText = "Invalid Username or Password";
+      }
+    }
+  </script>
+</body>
+</html>
