@@ -1,12 +1,11 @@
 
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Baggage Scanner</title>
-            
-   <style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baggage Scanner</title>
+    <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #E4E0F5;
@@ -36,6 +35,9 @@
             color: #17112D;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         footer {
             background-color: #210660;
@@ -73,6 +75,7 @@
             padding: 10px;
             border: none;
             cursor: pointer;
+            margin: 5px;
         }
         button:hover {
             background: #30216E;
@@ -126,38 +129,171 @@
             justify-content: space-between;
             width: 50%;
         }
+        
+        /* Camera styles */
+        #camera-container {
+            width: 100%;
+            max-width: 640px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        #camera-view {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 8px;
+        }
+        
+        #camera-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        
+        #scan-result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            width: 100%;
+            display: none;
+        }
+        
+        #barcode-value {
+            font-weight: bold;
+            color: #210660;
+        }
     </style>
+</head>
+<body>
+    <script>
+        if (sessionStorage.getItem("authenticated") !== "true") {
+            window.location.href = "./login.html";
+        }
+    </script>
+    <header>
+        <div style="position: absolute; left: 20px; top: 20px;">
+            <button onclick="logout()">Logout</button>
+        </div>
+        <h1 id="welcome-msg">Baggage Scanner</h1>
+    </header>
+    <section>
+        <p>Scan and monitor baggage status.</p>
+        
+        <div id="camera-container">
+            <video id="camera-view" autoplay playsinline></video>
+            <div id="camera-controls">
+                <button id="start-camera">Start Camera</button>
+                <button id="stop-camera" disabled>Stop Camera</button>
+                <button id="capture-scan" disabled>Capture Scan</button>
+            </div>
+        </div>
+        
+        <div id="scan-result">
+            <h3>Scan Result:</h3>
+            <p>Barcode/Tag ID: <span id="barcode-value">Not detected</span></p>
+            <button id="check-baggage">Check Baggage Status</button>
+        </div>
+    </section>
+    <footer>
+        <p>&copy; TechInovation2025</p>
+        <div class="button-container">
+            <a href="rampagent_welcome.html"><button>Welcome</button></a>
+            <a href="rampagent_baggageinfo.html"><button>Baggage Info</button></a>
+        </div>
+    </footer>
 
-        </head>
-        <body>
-            <script>
-                if (sessionStorage.getItem("authenticated") !== "true") {
-                    window.location.href = "./login.html";
-                }
-            </script>
-            <header>
-                <div style="position: absolute; left: 20px; top: 20px;">
-                    <button onclick="logout()">Logout</button>
-                </div>
-                <h1 id="welcome-msg">Baggage Scanner</h1>
-            </header>
-            <script>
-                function logout() {
-                    sessionStorage.removeItem("authenticated");
-                    sessionStorage.removeItem("username");
-                    window.location.href = "./login.html";  // Redirect to login page
-                }
+    <script>
+        function logout() {
+            sessionStorage.removeItem("authenticated");
+            sessionStorage.removeItem("username");
+            window.location.href = "./login.html";  // Redirect to login page
+        }
 
-                const username = sessionStorage.getItem("username") || "";
-                if ("baggagescanner" === "welcome") {
-                    document.getElementById("welcome-msg").innerText = "Welcome, " + username.charAt(0).toUpperCase() + username.slice(1) + "!";
-                }
-            </script>
-            <section><p>Scan and monitor baggage status.</p></section>
-            <footer>
-                <p>&copy; TechInovation2025</p>
-                <div class="button-container"><a href="rampagent_welcome.html"><button>Welcome</button></a><a href="rampagent_baggageinfo.html"><button>Baggage Info</button></a></div>
-            </footer>
-        </body>
-        </html>
+        const username = sessionStorage.getItem("username") || "";
+        if ("baggagescanner" === "welcome") {
+            document.getElementById("welcome-msg").innerText = "Welcome, " + username.charAt(0).toUpperCase() + username.slice(1) + "!";
+        }
+
+        // Camera functionality
+        const cameraView = document.getElementById("camera-view");
+        const startCameraBtn = document.getElementById("start-camera");
+        const stopCameraBtn = document.getElementById("stop-camera");
+        const captureScanBtn = document.getElementById("capture-scan");
+        const scanResult = document.getElementById("scan-result");
+        const barcodeValue = document.getElementById("barcode-value");
+        const checkBaggageBtn = document.getElementById("check-baggage");
+        
+        let stream = null;
+        
+        // Start camera
+        startCameraBtn.addEventListener("click", async () => {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        facingMode: "environment", 
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    },
+                    audio: false 
+                });
+                cameraView.srcObject = stream;
+                
+                startCameraBtn.disabled = true;
+                stopCameraBtn.disabled = false;
+                captureScanBtn.disabled = false;
+                
+                console.log("Camera started");
+            } catch (err) {
+                console.error("Error accessing camera:", err);
+                alert("Could not access the camera. Please ensure you've granted camera permissions.");
+            }
+        });
+        
+        // Stop camera
+        stopCameraBtn.addEventListener("click", () => {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                cameraView.srcObject = null;
+                stream = null;
+                
+                startCameraBtn.disabled = false;
+                stopCameraBtn.disabled = true;
+                captureScanBtn.disabled = true;
+                
+                console.log("Camera stopped");
+            }
+        });
+        
+        // Capture scan (simulated barcode detection)
+        captureScanBtn.addEventListener("click", () => {
+            // In a real implementation, you would use a barcode scanning library here
+            // For this example, we'll simulate a random barcode detection
+            
+            // Generate a random baggage tag ID (format: ABC12345)
+            const randomLetters = String.fromCharCode(65 + Math.floor(Math.random() * 26)) + 
+                                 String.fromCharCode(65 + Math.floor(Math.random() * 26)) + 
+                                 String.fromCharCode(65 + Math.floor(Math.random() * 26));
+            const randomNumbers = Math.floor(10000 + Math.random() * 90000);
+            const simulatedBarcode = randomLetters + randomNumbers;
+            
+            barcodeValue.textContent = simulatedBarcode;
+            scanResult.style.display = "block";
+            
+            console.log("Scan captured:", simulatedBarcode);
+        });
+        
+        // Check baggage status
+        checkBaggageBtn.addEventListener("click", () => {
+            const barcode = barcodeValue.textContent;
+            if (barcode && barcode !== "Not detected") {
+                alert(`Checking status for baggage ${barcode}...\n(Simulated response: Baggage is cleared for loading)`);
+                // In a real implementation, you would make an API call here
+            } else {
+                alert("Please scan a baggage tag first.");
+            }
+        });
+    </script>
+</body>
+</html>
         
