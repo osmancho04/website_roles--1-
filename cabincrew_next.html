@@ -23,11 +23,11 @@
       z-index: 1000;
     }
     .flight-details-container p {
-      text-align: center;
-      font-weight: bold;
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
 
     main {
       margin-top: 140px; /* to clear header */
@@ -116,13 +116,9 @@
       transition: background-color 0.3s ease;
     }
     
+
     .footer-logout button:hover {
       background-color: #FF9A8B;
-    }
-    
-    .button-container {
-      display: inline-block;
-      margin: 0 5px;
     }
   </style>
 </head>
@@ -155,12 +151,32 @@
         </div>
         <div class="flight-info">
           <div>Departure:</div>
-          <div class="info-box">2025-04-25 14:30</div>
+          <div class="info-box">LGW - 2025-04-25 14:30</div>
         </div>
         <div class="flight-info">
           <div>Arrival:</div>
-          <div class="info-box">2025-04-25 16:45</div>
+          <div class="info-box">BCN - 2025-04-25 16:45</div>
         </div>
+        <div class="flight-info">
+            <div>Number of Passengers:</div>
+            <div class="info-box">65</div>
+          </div>
+          <div class="flight-info">
+            <div>Number of crew:</div>
+            <div class="info-box">12</div>
+          </div>
+          <div class="flight-info">
+            <div>Plane model and number:</div>
+            <div class="info-box">Boeing 797</div>
+          </div>
+          <div class="flight-info">
+            <div>Flight Duration:</div>
+            <div class="info-box">120 Minutes</div>
+          </div>
+          <div class="flight-info">
+            <div>Layover?</div>
+            <div class="info-box">Yes</div>
+          </div>
         <div class="flight-info">
           <div>Baggage Number:</div>
           <div class="info-box">B123456</div>
@@ -168,6 +184,8 @@
         <div class="flight-info">
           <div>Baggage Status:</div>
           <div class="info-box">Checked-in</div>
+          </div>
+        </div>
         </div>
       </div>
     </div>
@@ -176,8 +194,8 @@
   <footer>
     <p>&copy; TechInovation2025</p>
     <div class="footer-logout">
-      <div class="button-container"><a href="cabincrew_welcome.html"><button>Welcome</button></a></div>
-      <div class="button-container"><button onclick="logout()">Logout</button></div>
+        <div class="button-container"><a href="cabincrew_welcome.html"><button>Welcome</button>
+      <button onclick="logout()">Logout</button>
     </div>
   </footer>
 
