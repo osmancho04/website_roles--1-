@@ -1,299 +1,201 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baggage Scanner</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #E4E0F5;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            flex-direction: column;
-        }
-        header {
-            background-color: #210660;
-            color: #E4E0F5;
-            padding: 20px;
-            text-align: center;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-        section {
-            width: 60%;
-            padding: 20px;
-            margin-top: 80px; /* Ensures section starts below the fixed header */
-            background-color: #D1C9E1;
-            color: #17112D;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        footer {
-            background-color: #210660;
-            color: #E4E0F5;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-        .button-container {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-        .button-container a { margin: 0; }
-        .login-container {
-            background: #FFFFFF;
-            padding: 20px;
-            margin: 100px auto;
-            width: 300px;
-            box-shadow: 0px 0px 10px #4C419F;
-            border-radius: 5px;
-        }
-        input {
-            display: block;
-            width: 90%;
-            margin: 10px auto;
-            padding: 10px;
-            border: 1px solid #4C419F;
-        }
-        button {
-            background: #4C419F;
-            color: #E4E0F5;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-            margin: 5px;
-        }
-        button:hover {
-            background: #30216E;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Baggage Scanner</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #E4E0F5;
+      margin: 0;
+      padding: 0;
+    }
 
-        /* Layout for the flight data section */
-        .flight-details {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
-        }
+    header {
+      background-color: #210660;
+      color: #E4E0F5;
+      padding: 20px;
+      text-align: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
 
-        .flight-info {
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 16px;
-        }
+    main {
+      margin-top: 120px;
+      margin-bottom: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
 
-        .info-box {
-            background-color: #D1C9E1;
-            padding: 8px;
-            border-radius: 5px;
-            width: 100%;
-            margin-left: 10px;
-            text-align: center;
-            font-weight: bold;
-        }
+    section {
+      width: 60%;
+      padding: 20px;
+      background-color: #D1C9E1;
+      color: #17112D;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      text-align: center;
+    }
 
-        #checkin-btn {
-            padding: 10px 20px;
-            border-radius: 5px;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            background-color: #F4A89A;
-        }
+    section p {
+      font-weight: bold;
+      font-size: 18px;
+    }
 
-        #checkin-btn:hover {
-            background-color: #FF9A8B;
-        }
+    footer {
+      background-color: #210660;
+      color: #E4E0F5;
+      text-align: center;
+      padding: 10px;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
 
-        .flight-info div {
-            display: flex;
-            justify-content: space-between;
-            width: 50%;
-        }
-        
-        /* Camera styles */
-        #camera-container {
-            width: 100%;
-            max-width: 640px;
-            margin: 20px 0;
-            text-align: center;
-        }
-        
-        #camera-view {
-            width: 100%;
-            background-color: #ddd;
-            border-radius: 8px;
-        }
-        
-        #camera-controls {
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
-        }
-        
-        #scan-result {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #fff;
-            border-radius: 8px;
-            width: 100%;
-            display: none;
-        }
-        
-        #barcode-value {
-            font-weight: bold;
-            color: #210660;
-        }
-    </style>
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .button-container a {
+      margin: 0;
+    }
+
+    #camera-container {
+      margin-top: 20px;
+    }
+
+    #video {
+
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: scaleX(1); /* disable mirroring */
+    }
+    
+
+    #scanner-frame {
+      position: relative;
+      display: inline-block;
+    }
+
+    #scanner-line {
+      position: absolute;
+      width: 100%;
+      height: 4px;
+      background: limegreen;
+      top: 0;
+      left: 0;
+      animation: scanAnim 2s linear infinite;
+      display: none;
+      z-index: 10;
+    }
+
+    @keyframes scanAnim {
+      0% { top: 0; }
+      100% { top: 296px; }
+    }
+
+    #scan-btn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border-radius: 25px;
+      background-color: #4C419F;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0px 4px 10px rgba(76, 65, 159, 0.3);
+      transition: background-color 0.3s ease;
+    }
+
+    #scan-btn:hover {
+      background-color: #30216E;
+    }
+
+    .footer-logout button {
+      background-color: #F4A89A;
+      color: #210660;
+      border: none;
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .footer-logout button:hover {
+      background-color: #FF9A8B;
+    }
+  </style>
 </head>
 <body>
-    <script>
-        if (sessionStorage.getItem("authenticated") !== "true") {
-            window.location.href = "./login.html";
-        }
-    </script>
-    <header>
-        <div style="position: absolute; left: 20px; top: 20px;">
-            <button onclick="logout()">Logout</button>
-        </div>
-        <h1 id="welcome-msg">Baggage Scanner</h1>
-    </header>
+  <script>
+    if (sessionStorage.getItem("authenticated") !== "true") {
+      window.location.href = "./login.html";
+    }
+  </script>
+
+  <header>
+    <h1 id="welcome-msg">Baggage Scanner</h1>
+  </header>
+
+  <main>
     <section>
-        <p>Scan and monitor baggage status.</p>
-        
-        <div id="camera-container">
-            <video id="camera-view" autoplay playsinline></video>
-            <div id="camera-controls">
-                <button id="start-camera">Start Camera</button>
-                <button id="stop-camera" disabled>Stop Camera</button>
-                <button id="capture-scan" disabled>Capture Scan</button>
-            </div>
+      <p>Scan and monitor baggage status.</p>
+      <div id="camera-container">
+        <div id="scanner-frame">
+          <video id="video" width="400" height="300" autoplay playsinline></video>
+          <div id="scanner-line"></div>
         </div>
-        
-        <div id="scan-result">
-            <h3>Scan Result:</h3>
-            <p>Barcode/Tag ID: <span id="barcode-value">Not detected</span></p>
-            <button id="check-baggage">Check Baggage Status</button>
-        </div>
+        <p id="camera-error" style="color: red; font-weight: bold;"></p>
+        <button id="scan-btn" onclick="scanBaggage()">Scan</button>
+      </div>
     </section>
-    <footer>
-        <p>&copy; TechInovation2025</p>
-        <div class="button-container">
-            <a href="rampagent_welcome.html"><button>Welcome</button></a>
-            <a href="rampagent_baggageinfo.html"><button>Baggage Info</button></a>
-        </div>
-    </footer>
+  </main>
 
-    <script>
-        function logout() {
-            sessionStorage.removeItem("authenticated");
-            sessionStorage.removeItem("username");
-            window.location.href = "./login.html";  // Redirect to login page
-        }
+  <footer>
+    <p>&copy; TechInovation2025</p>
+    <div class="footer-logout button-container">
+      <a href="rampagent_baggageinfo.html"><button>Baggage Information</button></a>
+      <a href="rampagent_welcome.html"><button>Welcome</button></a>
+    </div>
+  </footer>
 
-        const username = sessionStorage.getItem("username") || "";
-        if ("baggagescanner" === "welcome") {
-            document.getElementById("welcome-msg").innerText = "Welcome, " + username.charAt(0).toUpperCase() + username.slice(1) + "!";
-        }
+  <script>
+    const video = document.getElementById("video");
+    const errorText = document.getElementById("camera-error");
+    const scanLine = document.getElementById("scanner-line");
+    const scanBtn = document.getElementById("scan-btn");
 
-        // Camera functionality
-        const cameraView = document.getElementById("camera-view");
-        const startCameraBtn = document.getElementById("start-camera");
-        const stopCameraBtn = document.getElementById("stop-camera");
-        const captureScanBtn = document.getElementById("capture-scan");
-        const scanResult = document.getElementById("scan-result");
-        const barcodeValue = document.getElementById("barcode-value");
-        const checkBaggageBtn = document.getElementById("check-baggage");
-        
-        let stream = null;
-        
-        // Start camera
-        startCameraBtn.addEventListener("click", async () => {
-            try {
-                stream = await navigator.mediaDevices.getUserMedia({ 
-                    video: { 
-                        facingMode: "environment", 
-                        width: { ideal: 1280 },
-                        height: { ideal: 720 }
-                    },
-                    audio: false 
-                });
-                cameraView.srcObject = stream;
-                
-                startCameraBtn.disabled = true;
-                stopCameraBtn.disabled = false;
-                captureScanBtn.disabled = false;
-                
-                console.log("Camera started");
-            } catch (err) {
-                console.error("Error accessing camera:", err);
-                alert("Could not access the camera. Please ensure you've granted camera permissions.");
-            }
-        });
-        
-        // Stop camera
-        stopCameraBtn.addEventListener("click", () => {
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-                cameraView.srcObject = null;
-                stream = null;
-                
-                startCameraBtn.disabled = false;
-                stopCameraBtn.disabled = true;
-                captureScanBtn.disabled = true;
-                
-                console.log("Camera stopped");
-            }
-        });
-        
-        // Capture scan (simulated barcode detection)
-        captureScanBtn.addEventListener("click", () => {
-            // In a real implementation, you would use a barcode scanning library here
-            // For this example, we'll simulate a random barcode detection
-            
-            // Generate a random baggage tag ID (format: ABC12345)
-            const randomLetters = String.fromCharCode(65 + Math.floor(Math.random() * 26)) + 
-                                 String.fromCharCode(65 + Math.floor(Math.random() * 26)) + 
-                                 String.fromCharCode(65 + Math.floor(Math.random() * 26));
-            const randomNumbers = Math.floor(10000 + Math.random() * 90000);
-            const simulatedBarcode = randomLetters + randomNumbers;
-            
-            barcodeValue.textContent = simulatedBarcode;
-            scanResult.style.display = "block";
-            
-            console.log("Scan captured:", simulatedBarcode);
-        });
-        
-        // Check baggage status
-        checkBaggageBtn.addEventListener("click", () => {
-            const barcode = barcodeValue.textContent;
-            if (barcode && barcode !== "Not detected") {
-                alert(`Checking status for baggage ${barcode}...\n(Simulated response: Baggage is cleared for loading)`);
-                // In a real implementation, you would make an API call here
-            } else {
-                alert("Please scan a baggage tag first.");
-            }
-        });
-    </script>
+    navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then((stream) => {
+        video.srcObject = stream;
+      })
+      .catch((err) => {
+        console.error("Camera access denied:", err);
+        errorText.innerText = "Unable to access camera. Please check browser settings.";
+      });
+
+    function scanBaggage() {
+      scanLine.style.display = "block";
+      scanBtn.disabled = true;
+      scanBtn.innerText = "Scanning...";
+
+      setTimeout(() => {
+        scanLine.style.display = "none";
+        alert("Bag scanned successfully!");
+        scanBtn.disabled = false;
+        scanBtn.innerText = "Scan";
+      }, 2000);
+      transform: scaleX(1);
+    }
+  </script>
 </body>
 </html>
-        
